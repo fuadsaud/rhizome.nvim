@@ -9,6 +9,9 @@
 (local *config* {:roots []
                  :telescope_options {}})
 
+(defn known_roots []
+  (. *config* :roots))
+
 (fn normalize_path
   [path]
   (-> path
@@ -47,28 +50,6 @@
   [input_path]
   (open_root :tabedit (derive_root (. *config* :roots) input_path)))
 
-(defn open_root_picker []
-  (let [{:roots roots
-         :telescope_options telescope_options} *config*
-        finder (finders.new_table {:results roots
-                                   :entry_maker (fn [entry]
-                                                  {:value entry
-                                                   :display (. entry :path)
-                                                   :ordinal (. entry :path)})})
-        sorter (config.values.generic_sorter telescope_options)
-        handler (fn [prompt_bufnr map]
-                  (actions.select_default:replace
-                    (fn []
-                      (actions.close prompt_bufnr)
-
-                      (let [selection (action_state.get_selected_entry)]
-                        (open_in_new_tab (. selection :value :path))))))
-        picker (pickers.new telescope_options {:prompt_title "Roots"
-                                               :finder finder
-                                               :sorter sorter
-                                               :attach_mappings handler})]
-    (picker:find)))
-
 (defn setup
   [{:roots roots
     :telescope_options telescope_options}]
@@ -83,5 +64,4 @@
                   {:path "~/.ditmas"}
                   {:path "~/.config/nvim"}
                   {:path "~/.config/zsh" :entrypoint ".zshrc"}]})
-  (open_root_picker)
   (open_in_new_tab zsh_path))
