@@ -10,10 +10,10 @@
 (defn roots [opts]
   (let [roots (rhizome.known_roots)
         finder (finders.new_table {:results roots
-                                   :entry_maker (fn [entry]
-                                                  {:value entry
-                                                   :display (. entry :path)
-                                                   :ordinal (. entry :path)})})
+                                   :entry_maker (fn [root]
+                                                  {:value root
+                                                   :display (a.str (rhizome.label_for_root root) "•" (:path root))
+                                                   :ordinal (. root :path)})})
         sorter (config.values.generic_sorter opts)
         handler (fn [prompt_bufnr map]
                   (actions.select_default:replace

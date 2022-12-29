@@ -22,8 +22,8 @@ _2amodule_locals_2a["rhizome"] = rhizome
 local function roots(opts)
   local roots0 = rhizome.known_roots()
   local finder
-  local function _1_(entry)
-    return {value = entry, display = entry.path, ordinal = entry.path}
+  local function _1_(root)
+    return {value = root, display = a.str(rhizome.label_for_root(root), "\226\128\162", ("path")(root)), ordinal = root.path}
   end
   finder = finders.new_table({results = roots0, entry_maker = _1_})
   local sorter = config.values.generic_sorter(opts)

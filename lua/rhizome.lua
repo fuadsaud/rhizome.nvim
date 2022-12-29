@@ -11,25 +11,20 @@ do
   _2amodule_locals_2a = (_2amodule_2a)["aniseed/locals"]
 end
 local autoload = (require("aniseed.autoload")).autoload
-local a, action_state, actions, config, finders, pickers, string = autoload("aniseed.core"), autoload("telescope.actions.state"), autoload("telescope.actions"), autoload("telescope.config"), autoload("telescope.finders"), autoload("telescope.pickers"), autoload("aniseed.string")
+local a, string = autoload("aniseed.core"), autoload("aniseed.string")
 do end (_2amodule_locals_2a)["a"] = a
-_2amodule_locals_2a["action_state"] = action_state
-_2amodule_locals_2a["actions"] = actions
-_2amodule_locals_2a["config"] = config
-_2amodule_locals_2a["finders"] = finders
-_2amodule_locals_2a["pickers"] = pickers
 _2amodule_locals_2a["string"] = string
 local _2aconfig_2a
 local function _1_(root)
   return a.last(string.split(root.path, "/"))
 end
-_2aconfig_2a = {roots = {}, label_fn = _1_, telescope_options = {}}
+_2aconfig_2a = {roots = {}, default_label_fn = _1_}
 local function known_roots()
   return (_2aconfig_2a).roots
 end
 _2amodule_2a["known_roots"] = known_roots
 local function default_label(root)
-  return (_2aconfig_2a).label_fn(root)
+  return (_2aconfig_2a).deafult_label_fn(root)
 end
 local function normalize_path(path)
   return vim.fn.resolve(vim.fn.expand(path))
@@ -56,15 +51,17 @@ end
 local function open_root(cmd, root)
   return open(cmd, root.path, (string.join("/", {root.path, root.entrypoint}) or root.path))
 end
-local function label_2a(input_path)
-  local root = derive_root(input_path)
+local function label_for_root(root)
   return (root.label or default_label(root))
 end
-_2amodule_2a["label*"] = label_2a
-local function label(tabnr)
+_2amodule_2a["label_for_root"] = label_for_root
+local function label_2a(input_path)
+  return label_for_root(derive_root(input_path))
+end
+local function label_for_tabnr(tabnr)
   return label_2a(vim.fn.getcwd(-1, tabnr))
 end
-_2amodule_2a["label"] = label
+_2amodule_2a["label_for_tabnr"] = label_for_tabnr
 local function open_in_current_tab(input_path)
   return open_root("edit", derive_root(input_path))
 end

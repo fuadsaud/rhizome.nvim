@@ -1,22 +1,16 @@
 (module rhizome
   {autoload {a aniseed.core
-             string aniseed.string
-             pickers telescope.pickers
-             finders telescope.finders
-             actions telescope.actions
-             action_state telescope.actions.state
-             config telescope.config}})
+             string aniseed.string}})
 
 (local *config* {:roots []
-                 :label_fn (fn [root]
-                             (a.last (string.split (. root :path) "/")))
-                 :telescope_options {}})
+                 :default_label_fn (fn [root]
+                                     (a.last (string.split (. root :path) "/")))})
 
 (defn known_roots []
   (. *config* :roots))
 
 (fn default_label [root]
-  ((. *config* :label_fn) root))
+  ((. *config* :deafult_label_fn) root))
 
 (fn normalize_path
   [path]
@@ -52,12 +46,14 @@
   (open cmd (. root :path) (or (string.join "/" [(. root :path) (. root :entrypoint)])
                                (. root :path))))
 
-(defn label* [input_path]
-  (let [root (derive_root input_path)]
-    (or (. root :label)
-        (default_label root))))
+(defn label_for_root [root]
+  (or (. root :label)
+      (default_label root)))
 
-(defn label [tabnr]
+(fn label* [input_path]
+  (label_for_root (derive_root input_path)))
+
+(defn label_for_tabnr [tabnr]
   (label* (vim.fn.getcwd -1 tabnr)))
 
 (defn open_in_current_tab
