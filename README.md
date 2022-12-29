@@ -96,4 +96,4 @@ require('rhizome').label_for_tabnr(vim.fn.tabpagenr())
 
 ## License
 
-See [LICENSE](./LICENSE)
+See [LICENSE](./LICENSE).
