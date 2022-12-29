@@ -10,7 +10,7 @@
   (. *config* :roots))
 
 (fn default_label [root]
-  ((. *config* :deafult_label_fn) root))
+  ((. *config* :default_label_fn) root))
 
 (fn normalize_path
   [path]

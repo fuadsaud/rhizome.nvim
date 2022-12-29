@@ -24,7 +24,7 @@ local function known_roots()
 end
 _2amodule_2a["known_roots"] = known_roots
 local function default_label(root)
-  return (_2aconfig_2a).deafult_label_fn(root)
+  return (_2aconfig_2a).default_label_fn(root)
 end
 local function normalize_path(path)
   return vim.fn.resolve(vim.fn.expand(path))
