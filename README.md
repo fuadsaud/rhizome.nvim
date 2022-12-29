@@ -4,8 +4,6 @@ This plugin is inspired by [nvim-contabs](https://github.com/m00qek/nvim-contabs
 
 Rhizome offers some convenience functionalities for using Neovim tabs to work with multiple directories in the same instance.
 
-## Features
-
 ## Concepts
 
 ### Root
@@ -33,7 +31,7 @@ To open a directory in a tab, rhizome only needs a directory path. However, it c
 
 Known roots can be specified during [setup](#setup).
 
-### Features
+## Features
 
 ### Open a root in the current tab
 
