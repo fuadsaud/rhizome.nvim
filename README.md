@@ -21,7 +21,7 @@ A root represents a directory known to rhizome. It's composed of the following a
 Examples:
 
 ```lua
-{ path = "~/.config/nvim", entrypoint = "init.lua", label = "Neovim Config" }
+{ path = '~/.config/nvim', entrypoint = 'init.lua', label = 'Neovim Config' }
 ```
 
 ### Known Roots
@@ -38,7 +38,7 @@ Known roots can be specified during [setup](#setup).
 ### Open a root in the current tab
 
 ```lua
-require('rhizome').open_in_current_tab("~/.config/nvim")
+require('rhizome').open_in_current_tab('~/.config/nvim')
 ```
 
 Attempts to find the root matching the given path; if one is not found, a new one is created on-the-fly with the given path and default values for other attributes. Then, sets the working directory for the current tab and opens a new buffer for the entrypoint.
@@ -46,12 +46,20 @@ Attempts to find the root matching the given path; if one is not found, a new on
 ### Open a root in a new tab
 
 ```lua
-require('rhizome').open_in_new_tab("~/.config/nvim")
+require('rhizome').open_in_new_tab('~/.config/nvim')
 ```
 
 Attempts to find the root matching the given path; if one is not found, a new one is created on-the-fly with the given path and default values for other attributes. Then, creates a new tab with the working directory set to the root's path and opens a new buffer for the entrypoint.
 
 ### Telescope Integration
+
+First you need to load the extension:
+
+```lua
+require('telescope').load_extension('rhizome')
+```
+
+Then you can run the following command:
 
 ```vim
 :Telescope rhizome roots
