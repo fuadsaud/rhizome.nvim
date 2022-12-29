@@ -9,7 +9,6 @@
 
 (local *config* {:roots []
                  :label_fn (fn [root]
-                             (print root)
                              (a.last (string.split (. root :path) "/")))
                  :telescope_options {}})
 
@@ -50,7 +49,7 @@
 
 (fn open_root
   [cmd root]
-  (open cmd (. root :path) (or (a.join "/" [(. root :path) (. root :entrypoint)])
+  (open cmd (. root :path) (or (string.join "/" [(. root :path) (. root :entrypoint)])
                                (. root :path))))
 
 (defn label* [input_path]

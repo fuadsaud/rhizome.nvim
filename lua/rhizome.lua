@@ -21,7 +21,6 @@ _2amodule_locals_2a["pickers"] = pickers
 _2amodule_locals_2a["string"] = string
 local _2aconfig_2a
 local function _1_(root)
-  print(root)
   return a.last(string.split(root.path, "/"))
 end
 _2aconfig_2a = {roots = {}, label_fn = _1_, telescope_options = {}}
@@ -55,7 +54,7 @@ local function open(cmd, cwd, entrypoint)
   return vim.cmd({cmd = "tcd", args = {cwd}})
 end
 local function open_root(cmd, root)
-  return open(cmd, root.path, (a.join("/", {root.path, root.entrypoint}) or root.path))
+  return open(cmd, root.path, (string.join("/", {root.path, root.entrypoint}) or root.path))
 end
 local function label_2a(input_path)
   local root = derive_root(input_path)
