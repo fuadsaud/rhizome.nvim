@@ -12,7 +12,7 @@
         finder (finders.new_table {:results roots
                                    :entry_maker (fn [root]
                                                   {:value root
-                                                   :display (a.str (rhizome.label_for_root root) "•" (:path root))
+                                                   :display (a.str (rhizome.label_for_root root) " • " (. root :path))
                                                    :ordinal (. root :path)})})
         sorter (config.values.generic_sorter opts)
         handler (fn [prompt_bufnr map]
