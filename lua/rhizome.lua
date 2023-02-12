@@ -44,12 +44,26 @@ end
 local function derive_root(input_path)
   return derive_root_2a((_2aconfig_2a).roots, input_path)
 end
+local function open2(cwd, callback)
+  vim.cmd({cmd = "tcd", args = {cwd}})
+  return callback()
+end
+local function open_entrypoint(cmd, root)
+  if root.entrypoint then
+    return vim.cmd({cmd = cmd, args = {string.join("/", {root.path, root.entrypoint})}})
+  else
+    return vim.cmd({cmd = "Telescope", args = {"find_files"}})
+  end
+end
 local function open(cmd, cwd, entrypoint)
   vim.cmd({cmd = cmd, args = {entrypoint}})
   return vim.cmd({cmd = "tcd", args = {cwd}})
 end
 local function open_root(cmd, root)
-  return open(cmd, root.path, (string.join("/", {root.path, root.entrypoint}) or root.path))
+  local function _4_()
+    return open_entrypoint(cmd, root)
+  end
+  return open2(root.path, _4_)
 end
 local function label_for_root(root)
   return (root.label or default_label(root))

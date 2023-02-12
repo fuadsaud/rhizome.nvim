@@ -36,6 +36,16 @@
   [input_path]
   (derive_root* (. *config* :roots) input_path))
 
+(fn open2
+  [cwd callback]
+  (vim.cmd {:cmd :tcd :args [cwd]})
+  (callback))
+
+(fn open_entrypoint [cmd root]
+  (if (. root :entrypoint)
+    (vim.cmd {:cmd cmd :args [(string.join "/" [(. root :path) (. root :entrypoint)])]})
+    (vim.cmd {:cmd :Telescope :args [:find_files]})))
+
 (fn open
   [cmd cwd entrypoint]
   (vim.cmd {:cmd cmd :args [entrypoint]})
@@ -43,8 +53,7 @@
 
 (fn open_root
   [cmd root]
-  (open cmd (. root :path) (or (string.join "/" [(. root :path) (. root :entrypoint)])
-                               (. root :path))))
+  (open2 (. root :path) #(open_entrypoint cmd root)))
 
 (defn label_for_root [root]
   (or (. root :label)
@@ -58,11 +67,19 @@
 
 (defn open_in_current_tab
   [input_path]
-  (open_root :edit (derive_root input_path)))
+  (open_root :edit (derive_root input_path))
+  (open_entrypoint))
+
+(fn create_tab [entrypoint]
+  (if entrypoint
+    (vim.cmd {:cmd :tabedit :args [entrypoint]})
+    (vim.cmd {:cmd :tabnew})))
 
 (defn open_in_new_tab
   [input_path]
-  (open_root :tabedit (derive_root input_path)))
+  (let [root (derive_root input_path)]
+    (create_tab (. root :entrypoint))
+    (open_entrypoint :tabedit)))
 
 (defn setup
   [opts]
