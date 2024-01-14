@@ -1,11 +1,10 @@
-(module telescope._extensions.rhizome.pickers
-  {autoload {a aniseed.core
-             rhizome rhizome
-             pickers telescope.pickers
-             finders telescope.finders
-             actions telescope.actions
-             action_state telescope.actions.state
-             config telescope.config}})
+(local a (require :nfnl.core))
+(local rhizome (require :rhizome))
+(local pickers (require :telescope.pickers))
+(local finders (require :telescope.finders))
+(local actions (require :telescope.actions))
+(local action_state (require :telescope.actions.state))
+(local config (require :telescope.config))
 
 (defn roots [opts]
   (let [roots (rhizome.known_roots)

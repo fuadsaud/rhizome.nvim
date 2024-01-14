@@ -1,6 +1,5 @@
-(module rhizome
-  {autoload {a aniseed.core
-             string aniseed.string}})
+(local a (require :rhizome.nfnl.core))
+(local string (require :rhizome.nfnl.string))
 
 (local *config* {:roots []
                  :default_label_fn (fn [root]
