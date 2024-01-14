@@ -6,13 +6,13 @@ local finders = require("telescope.finders")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local config = require("telescope.config")
-local function _4_(...)
-  local roots = rhizome.known_roots()
+local function roots(opts)
+  local roots0 = rhizome.known_roots()
   local finder
   local function _1_(root)
     return {value = root, display = a.str(rhizome.label_for_root(root), " \226\128\162 ", root.path), ordinal = root.path}
   end
-  finder = finders.new_table({results = roots, entry_maker = _1_})
+  finder = finders.new_table({results = roots0, entry_maker = _1_})
   local sorter = config.values.generic_sorter(opts)
   local handler
   local function _2_(prompt_bufnr, map)
@@ -27,6 +27,4 @@ local function _4_(...)
   local picker = pickers.new(opts, {prompt_title = "Roots", finder = finder, sorter = sorter, attach_mappings = handler})
   return picker:find()
 end
-defn(roots, {opts}, _4_(...))
---[[ (roots) ]]
-return nil
+return {roots = roots}

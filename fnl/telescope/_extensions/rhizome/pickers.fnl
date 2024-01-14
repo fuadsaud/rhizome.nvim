@@ -6,7 +6,7 @@
 (local action_state (require :telescope.actions.state))
 (local config (require :telescope.config))
 
-(defn roots [opts]
+(fn roots [opts]
   (let [roots (rhizome.known_roots)
         finder (finders.new_table {:results roots
                                    :entry_maker (fn [root]
@@ -27,5 +27,4 @@
                                   :attach_mappings handler})]
     (picker:find)))
 
-(comment
-  (roots))
+{: roots}
