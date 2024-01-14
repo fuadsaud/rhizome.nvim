@@ -5,7 +5,7 @@
                  :default_label_fn (fn [root]
                                      (a.last (string.split (. root :path) "/")))})
 
-(defn known_roots []
+(fn known_roots []
   (. *config* :roots))
 
 (fn default_label [root]
@@ -45,25 +45,25 @@
   (open cmd (. root :path) (or (string.join "/" [(. root :path) (. root :entrypoint)])
                                (. root :path))))
 
-(defn label_for_root [root]
+(fn label_for_root [root]
   (or (. root :label)
       (default_label root)))
 
 (fn label* [input_path]
   (label_for_root (derive_root input_path)))
 
-(defn label_for_tabnr [tabnr]
+(fn label_for_tabnr [tabnr]
   (label* (vim.fn.getcwd -1 tabnr)))
 
-(defn open_in_current_tab
+(fn open_in_current_tab
   [input_path]
   (open_root :edit (derive_root input_path)))
 
-(defn open_in_new_tab
+(fn open_in_new_tab
   [input_path]
   (open_root :tabedit (derive_root input_path)))
 
-(defn setup
+(fn setup
   [opts]
   (a.merge! *config* opts))
 
@@ -78,3 +78,10 @@
   (local zsh_root (derive_root zsh_path))
   (label* zsh_path)
   (open_in_new_tab zsh_path))
+
+{: known_roots
+ : label_for_root
+ : label_for_tabnr
+ : open_in_current_tab
+ : open_in_new_tab
+ :  setup}
